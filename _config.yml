@@ -1,5 +1,5 @@
 theme: jekyll-theme-minimal
-title: Jax's homepage
-description: Bookmark this to keep an eye on my project updates!
+title: UVM Proteomics
+description: Documentation for UVM Proteomics R Packages
 plugins:
   - jekyll-relative-links

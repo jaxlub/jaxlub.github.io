@@ -1,5 +1,5 @@
 layout: page
-title: "PAGE-TITLE"
-permalink: /URL-PATH
+title: "Test"
+permalink: jaxlub.github.io/test
 
 Test
