@@ -1,14 +1,108 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>My Website</title>
-</head>
-<body>
-  <h1>Welcome to My Website</h1>
-  <ul>
-    <li><a href="page1.html">Page 1</a></li>
-    <li><a href="page2.html">Page 2</a></li>
-    <li><a href="page3.html">Page 3</a></li>
-  </ul>
-</body>
-</html>
+<figure>
+    <img src="/logo_landscape.png" alt="VBRN Logo" />
+    <figcaption aria-hidden="true">VBRN Logo</figcaption>
+    </figure>
+    <h1 id="uvm-proteomics"><a href="https://vbrn.org/proteomics/">UVM
+    Proteomics</a></h1>
+    <h3 id="authors">Authors</h3>
+    <p><a
+    href="https://scholar.google.com/citations?user=uGHWHbgAAAAJ&amp;hl=en&amp;oi=ao">Emily
+    Curd</a> and James (Jax) Lubkowitz</p>
+    <h3 id="affiliations">Affiliations</h3>
+    <p><a href="https://vbrn.org">Vermont Biomedical Research Network</a>,
+    <a href="https://www.med.uvm.edu/vigr/home">Vermont Integrated Genomics
+    Resource</a>, <a href="https://www.uvm.edu">University of Vermont</a>,
+    <a href="https://www.stlawu.edu">St. Lawrence University</a></p>
+    <h3 id="funding">Funding</h3>
+    <p>Research reported in this repository was supported by an
+    Institutional Development Award (IDeA) from the National Institute of
+    General Medical Sciences of the National Institutes of Health under
+    grant number P20GM103449. Its contents are solely the responsibility of
+    the authors and do not necessarily represent the official views of NIGMS
+    or NIH.</p>
+    <p>This is a R package for the <a
+    href="https://vbrn.org/proteomics/">UVM - VBRN Proteomics Core</a>. It
+    includes functions for three main types of analyses: Post Translational
+    Modification, Spectral Counting, and Protein Expression.</p>
+    <p><strong><em>Currently Supports or In Development</em></strong></p>
+    <p>Post Translational Modification: - Motif Analysis</p>
+    <p>Spectral Counting: - Differential protein expression (DEqMS)</p>
+    <p>Protein Expression: - Pathway Analysis - functional
+    classification</p>
+    <h3 id="installation">Installation</h3>
+    <p>Package can be installed from github via</p>
+    <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)</span>
+    <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;UVM_Proteomics&quot;</span>,<span class="at">username=</span><span class="st">&quot;jaxlub&quot;</span>)</span></code></pre></div>
+    <p>Another download option is to download a zip file from github, unzip
+    it and then run</p>
+    <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)</span>
+    <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>source <span class="ot">&lt;-</span> devtools<span class="sc">:::</span><span class="fu">source_pkg</span>(<span class="st">&quot;path/to/package&quot;</span>)</span>
+    <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install</span>(source)</span></code></pre></div>
+    <h1 id="post-translational-modification">Post Translational
+    Modification</h1>
+    <h2 id="motif-extraction">Motif Extraction</h2>
+    <p>This function extracts predetermined protein motifs from a master
+    protein in a user specified proteome (e.g. <a
+    href="https://www.uniprot.org/proteomes?facets=proteome_type:1&amp;query=(organism_id:10090)">uniProt
+    mouse proteome</a>. The function identifies the position of the modified
+    amino acid(s) in a master protein, and uses that information as a
+    midpoint to calculate the position range of amino acids in a motif. The
+    blast+ suite is then used to search a proteome and extract the motifs.
+    To do this, a user defined proteome is converted to a blast searchable
+    database (using makeblastdb). The master protein accession is used to
+    search the database (using blastdbcmd), and if present the motif
+    determined by the range calculated above is extracted and appended to
+    the xlsx table.</p>
+    <p>If multiple master proteins or multiple modified amino acids are
+    identified for a given row of input data, this function will separate
+    that data to search a single master protein / modification at a time
+    resulting in a greater number of rows in the data set.</p>
+    <h3 id="function-contents">Function Contents</h3>
+    <pre><code>run_motif_extraction.R
+    build_blastdb.R
+    formatter.R
+    data_pull_and_fill.R
+    run_blastdbcmd.R</code></pre>
+    <h3 id="parameters">Parameters</h3>
+    <p>This program has 5 parameters. 1. The path to the data file - An
+    .xlsx peptidel isoforms output file from Proteome Discover (is this
+    correct?) that must includes the following columns information: |
+    Modifications_in_Master_Proteins | | —- | | P49312 1xPhospho
+    [S308(99.1)] | | A0A668KLC6 2xPhospho [T1811(100); S1815(99.2)] | | etc…
+    | <strong>SXXX</strong> indicates the modified amino acid (in this case
+    the phosphorylated amino acid) 2. The user determined path for the
+    output file 3. The path to ncbi-blast-2.14.0+/bin - download the <a
+    href="https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/">blast+
+    executables</a> 4. The path to Fasta reference file for desired organism
+    <a
+    href="https://rest.uniprot.org/uniprotkb/stream?download=true&amp;format=fasta&amp;query=%28mouse%29%20AND%20%28model_organism%3A10090%29">e.g. mouse
+    proteome download</a>)<br />
+    5. The number of amino acids on either side of the modified amino acid
+    to extract from the Master protein (default is num=7)</p>
+    <h3 id="the-output">The output</h3>
+    <ul>
+    <li>an .csv file with additional columns
+    <ul>
+    <li>accession</li>
+    <li>start</li>
+    <li>end</li>
+    <li>range</li>
+    <li>extracted_sequence</li>
+    </ul></li>
+    </ul>
+    <h3 id="example-usage">Example usage</h3>
+    <pre><code>#path to the protein sequence for the reference database
+    ref_protein &lt;- &quot;/Users/eguswa/Documents/Open_UVM_Projects/Proteomics_core/Mouse_ref/protein.faa&quot;
+    
+    #path to bin in blast suit
+    ncbi_bin &lt;- &quot;/Applications/ncbi-blast-2.14.0+/bin&quot;
+    
+    #input data sheet
+    input_path &lt;- &quot;/Users/eguswa/Documents/Open_UVM_Projects/Proteomics_core/Peptide_extraction/May222023_Eclipse_2022_138_unnormalized_peptideIsoforms_Bioinformatics.xlsx&quot;
+    
+    #output path
+    out_dir_path &lt;- &quot;/Users/eguswa/Documents/Open_UVM_Projects/Proteomics_core/Peptide_extraction/May222023_Eclipse_2022_138_with_extracted_sequence.csv&quot;
+    
+    
+    run_motif_extraction(input_path, output_path, ncbi_bin, ref_protein)</code></pre>
+    
