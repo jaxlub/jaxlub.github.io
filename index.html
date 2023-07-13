@@ -90,42 +90,6 @@ install(source)
     a greater number of rows in the data set.
   </p>
   
-  <h3 id="function-contents">Function Contents</h3>
-  <pre>
-    <code>
-      run_motif_extraction.R
-      build_blastdb.R
-      formatter.R
-      data_pull_and_fill.R
-      run_blastdbcmd.R
-    </code>
-  </pre>
   
-  <h3 id="parameters">Parameters</h3>
-  <p>
-    This program has 5 parameters:
-    <ol>
-      <li>The path to the data file - An .xlsx peptide isoforms output file from Proteome Discover (is this correct?)
-        that must include the following columns information:
-        <pre>
-          Modifications_in_Master_Proteins
-          -------------------------------
-          P49312 1xPhospho [S308(99.1)]
-          A0A668KLC6 2xPhospho [T1811(100); S1815(99.2)]
-          etc...
-        </pre>
-        <strong>SXXX</strong> indicates the modified amino acid (in this case the phosphorylated amino acid)
-      </li>
-      <li>The user-determined path for the output file</li>
-      <li>The path to ncbi-blast-2.14.0+/bin - download the <a href="https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/">blast+ executables</a></li>
-      <li>The path to Fasta reference file for the desired organism
-        <a href="https://rest.uniprot.org/uniprotkb/stream?download=true&amp;format=fasta&amp;query=%28mouse%29%20AND%20%28model_organism%3A10090%29">
-        e.g., mouse proteome download</a>)
-      </li>
-      <li>The number of amino acids on either side of the modified amino acid to extract from the Master protein
-        (default is num=7)
-      </li>
-    </ol>
-  </p>
   
   <h3 id="the-output

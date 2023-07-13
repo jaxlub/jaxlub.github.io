@@ -9,9 +9,50 @@
 <body>
   <h1>Motif Extraction</h1>
   
-  <p>This is a sample block of text for the motif extraction functionality of this r package.</p>
+  <p>
+    This function extracts predetermined protein motifs from a master protein in a user specified proteome
+    (e.g., <a href="https://www.uniprot.org/proteomes?facets=proteome_type:1&amp;query=(organism_id:10090)">
+    UniProt mouse proteome</a>). The function identifies the position of the modified amino acid(s) in a master protein,
+    and uses that information as a midpoint to calculate the position range of amino acids in a motif. The blast+ suite
+    is then used to search a proteome and extract the motifs. To do this, a user-defined proteome is converted to a blast
+    searchable database (using makeblastdb). The master protein accession is used to search the database (using blastdbcmd),
+    and if present, the motif determined by the range calculated above is extracted and appended to the xlsx table.
+  </p>
   
-  <h2>Links to Function Documentation</h2>
+  <p>
+    If multiple master proteins or multiple modified amino acids are identified for a given row of input data,
+    this function will separate that data to search a single master protein / modification at a time resulting in
+    a greater number of rows in the data set.
+  </p>
+  
+  <h3 id="parameters">Parameters</h3>
+  <p>
+    This program has 5 parameters:
+    <ol>
+      <li>The path to the data file - An .xlsx peptide isoforms output file from Proteome Discover (is this correct?)
+        that must include the following columns information:
+        <pre>
+          Modifications_in_Master_Proteins
+          -------------------------------
+          P49312 1xPhospho [S308(99.1)]
+          A0A668KLC6 2xPhospho [T1811(100); S1815(99.2)]
+          etc...
+        </pre>
+        <strong>SXXX</strong> indicates the modified amino acid (in this case the phosphorylated amino acid)
+      </li>
+      <li>The user-determined path for the output file</li>
+      <li>The path to ncbi-blast-2.14.0+/bin - download the <a href="https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/">blast+ executables</a></li>
+      <li>The path to Fasta reference file for the desired organism
+        <a href="https://rest.uniprot.org/uniprotkb/stream?download=true&amp;format=fasta&amp;query=%28mouse%29%20AND%20%28model_organism%3A10090%29">
+        e.g., mouse proteome download</a>)
+      </li>
+      <li>The number of amino acids on either side of the modified amino acid to extract from the Master protein
+        (default is num=7)
+      </li>
+    </ol>
+  </p>
+
+  <h2>Function Contents and Documentation</h2>
   <ul>
     <li><a href="build_blastdb.html">build_blastdb</a></li>
     <li><a href="data_pull_and_fill.html">data_pull_and_fill</a></li>
