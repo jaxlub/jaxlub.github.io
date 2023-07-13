@@ -51,7 +51,27 @@
       </li>
     </ol>
   </p>
-
+  
+  <h3>Example usage</h3>
+  <pre>
+  <code>
+  #path to the protein sequence for the reference database
+  ref_protein &lt;- "/Users/eguswa/Documents/Open_UVM_Projects/Proteomics_core/Mouse_ref/protein.faa"
+  
+  #path to bin in blast suit
+  ncbi_bin &lt;- "/Applications/ncbi-blast-2.14.0+/bin"
+  
+  #input data sheet
+  input_path &lt;- "/Users/eguswa/Documents/Open_UVM_Projects/Proteomics_core/Peptide_extraction/May222023_Eclipse_2022_138_unnormalized_peptideIsoforms_Bioinformatics.xlsx"
+  
+  #output path
+  out_dir_path &lt;- "/Users/eguswa/Documents/Open_UVM_Projects/Proteomics_core/Peptide_extraction/May222023_Eclipse_2022_138_with_extracted_sequence.csv"
+  
+  
+  run_motif_extraction(input_path, output_path, ncbi_bin, ref_protein)
+  </code>
+  </pre>
+  
   <h2>Function Contents and Documentation</h2>
   <ul>
     <li><a href="build_blastdb.html">build_blastdb</a></li>
